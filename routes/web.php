@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KegiatanController; // Tambahkan ini
+use App\Http\Controllers\KegiatanController; 
+use App\Http\Controllers\AnggotaController; //
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // TAMBAHKAN RESOURCE ROUTE UNTUK KEGIATAN (CRUD)
+    // RESOURCE ROUTE UNTUK KEGIATAN
     Route::resource('kegiatan', KegiatanController::class)->names([
         'index' => 'kegiatan.index',
         'create' => 'kegiatan.create',
@@ -25,6 +26,20 @@ Route::middleware('auth')->group(function () {
         'edit' => 'kegiatan.edit',
         'update' => 'kegiatan.update',
         'destroy' => 'kegiatan.destroy',
+        'show' => 'kegiatan.show', // Pastikan 'show' ada untuk Kegiatan
+    ]);
+    
+    // RESOURCE ROUTE UNTUK ANGGOTA (Ditambahkan 'parameters' untuk mengatasi masalah 'anggotum')
+    Route::resource('anggota', AnggotaController::class)->names([
+        'index' => 'anggota.index',
+        'create' => 'anggota.create',
+        'store' => 'anggota.store',
+        'show' => 'anggota.show',
+        'edit' => 'anggota.edit',
+        'update' => 'anggota.update',
+        'destroy' => 'anggota.destroy',
+    ])->parameters([
+        'anggota' => 'anggota' // Mengganti parameter {anggotum} menjadi {anggota}
     ]);
 });
 
