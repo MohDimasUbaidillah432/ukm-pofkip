@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('kegiatan.index')" :active="request()->routeIs('kegiatan')">
                         Kegiatan
                     </x-nav-link>
+                    <x-nav-link :href="route('kegiatan.index')" :active="request()->routeIs('kegiatan')">
+                        Anggota
+                    </x-nav-link>
                 </div>
             </div>
 
