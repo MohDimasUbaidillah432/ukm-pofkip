@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kegiatans', function (Blueprint $table) {
+            $table->id();
             $table->string('nama'); // Nama Kegiatan
             $table->text('deskripsi'); // Deskripsi Kegiatan
             $table->date('tanggal'); // Tanggal Pelaksanaan
             $table->string('tempat'); // Tempat Pelaksanaan
-            $table->string('gambar')->nullable();
+            $table->string('gambar')->nullable(); // Opsional: Path untuk gambar kegiatan
+            $table->timestamps(); // <-- Menyediakan created_at dan updated_at
         });
     }
 
@@ -25,6 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kegiatanss');
+        // Pastikan nama tabel yang di-drop benar: 'kegiatans'
+        Schema::dropIfExists('kegiatans');
     }
 };

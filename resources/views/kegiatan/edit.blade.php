@@ -11,7 +11,9 @@
                 <div class="p-6 text-gray-900">
                     <form method="POST" action="{{ route('kegiatan.update', $kegiatan) }}" enctype="multipart/form-data">
                         @csrf
-                        @method('patch') <div class="mt-4">
+                        @method('patch') 
+
+                        <div class="mt-4">
                             <x-input-label for="nama" :value="__('Nama Kegiatan')" />
                             <x-text-input id="nama" class="block mt-1 w-full" type="text" name="nama" :value="old('nama', $kegiatan->nama)" required autofocus />
                             <x-input-error :messages="$errors->get('nama')" class="mt-2" />
@@ -25,7 +27,7 @@
 
                         <div class="mt-4">
                             <x-input-label for="tanggal" :value="__('Tanggal Pelaksanaan')" />
-                            <x-text-input id="tanggal" class="block mt-1 w-full" type="date" name="tanggal" :value="old('tanggal', $kegiatan->tanggal->format('Y-m-d'))" required />
+                           <x-text-input id="tanggal" class="block mt-1 w-full" type="date" name="tanggal" :value="old('tanggal', $kegiatan->tanggal->format('Y-m-d'))" required />
                             <x-input-error :messages="$errors->get('tanggal')" class="mt-2" />
                         </div>
 

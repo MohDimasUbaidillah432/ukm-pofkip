@@ -25,13 +25,15 @@
                     <h3 class="text-2xl font-bold mb-6 text-indigo-700">Daftar Kegiatan</h3>
 
                     @forelse ($kegiatans as $kegiatan)
+                        {{-- Pengecekan ID untuk menghindari error parameter hilang --}}
+                        @if ($kegiatan->id)
                         <div class="border-b border-gray-200 py-6 mb-6 last:border-b-0">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h4 class="text-xl font-bold text-gray-800">{{ $kegiatan->nama }}</h4>
                                     
                                     <p class="text-sm text-indigo-600 mt-1 mb-3">
-                                        Tanggal: {{ Carbon::parse($kegiatan->tanggal)->translatedFormat('d F Y') }}
+                                        Tanggal: {{ $kegiatan->tanggal->translatedFormat('d F Y') }}
                                         &bull;
                                         Tempat: {{ $kegiatan->tempat }}
                                     </p>
@@ -44,12 +46,14 @@
                                 </div>
                                 
                                 <div class="flex space-x-2">
-                                    <a href="{{ route('kegiatan.edit', $kegiatan) }}" 
+                                    {{-- Menggunakan ID eksplisit --}}
+                                    <a href="{{ route('kegiatan.edit', ['kegiatan' => $kegiatan->id]) }}" 
                                        class="text-sm text-blue-600 hover:text-blue-900 font-semibold">
                                         Edit
                                     </a>
 
-                                    <form action="{{ route('kegiatan.destroy', $kegiatan) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kegiatan ini?');">
+                                    {{-- Menggunakan ID eksplisit --}}
+                                    <form action="{{ route('kegiatan.destroy', ['kegiatan' => $kegiatan->id]) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kegiatan ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-sm text-red-600 hover:text-red-900 font-semibold">
@@ -59,6 +63,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     @empty
                         <div class="text-center py-10">
                             <p class="text-lg text-gray-600">Belum ada kegiatan yang tersedia saat ini.</p>

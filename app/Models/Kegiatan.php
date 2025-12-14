@@ -11,8 +11,6 @@ class Kegiatan extends Model
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
      */
     protected $fillable = [
         'nama',
@@ -24,10 +22,8 @@ class Kegiatan extends Model
 
     /**
      * The attributes that should be cast.
-     *
-     * @var array<string, string>
      */
     protected $casts = [
-        'tanggal' => 'date',
+        'tanggal' => 'date', // Penting untuk memformat tanggal secara otomatis
     ];
 }

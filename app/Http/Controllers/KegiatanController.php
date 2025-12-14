@@ -6,7 +6,7 @@ use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon; // Pastikan ini diimpor
 
 class KegiatanController extends Controller
 {
@@ -38,16 +38,17 @@ class KegiatanController extends Controller
             'deskripsi' => 'required|string',
             'tanggal' => 'required|date',
             'tempat' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Opsional
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ]);
 
         // 2. Upload Gambar (Jika ada)
         if ($request->hasFile('gambar')) {
+            // Simpan file di storage/app/public/kegiatans
             $path = $request->file('gambar')->store('kegiatans', 'public');
             $validatedData['gambar'] = basename($path);
         }
 
-        // 3. Simpan ke Database
+        // 3. Simpan ke Database (Melalui fillable di Model)
         Kegiatan::create($validatedData);
 
         return Redirect::route('kegiatan.index')->with('status', 'Kegiatan berhasil ditambahkan!');
@@ -72,7 +73,7 @@ class KegiatanController extends Controller
             'deskripsi' => 'required|string',
             'tanggal' => 'required|date',
             'tempat' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Opsional
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         // 2. Upload Gambar Baru (Jika ada)
