@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kegiatans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->string('nama'); // Nama Kegiatan
+            $table->text('deskripsi'); // Deskripsi Kegiatan
+            $table->date('tanggal'); // Tanggal Pelaksanaan
+            $table->string('tempat'); // Tempat Pelaksanaan
+            $table->string('gambar')->nullable();
         });
     }
 
