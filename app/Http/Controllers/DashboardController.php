@@ -13,6 +13,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        // Pastikan Model Anggota dan Kegiatan tersedia
         $totalAnggota = Anggota::count();
         $totalKegiatan = Kegiatan::count();
         $kegiatanTerbaru = Kegiatan::orderBy('tanggal', 'desc')->take(3)->get();

@@ -3,38 +3,36 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KegiatanController; 
-use App\Http\Controllers\AnggotaController; //
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\DashboardController; // Pastikan ini diimpor
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// ROUTE UNTUK DASHBOARD (BISA DIAKSES OLEH SEMUA USER TERAUTENTIKASI)
+// Mengganti closure lama dengan DashboardController
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-// ...
-
-    // RESOURCE ROUTE UNTUK KEGIATAN
+    
+    // RESOURCE ROUTE UNTUK KEGIATAN (HANYA UNTUK USER YANG MEMILIKI HAK AKSES ADMIN/MANAJEMEN)
     Route::resource('kegiatan', KegiatanController::class)->names([
         'index' => 'kegiatan.index',
         'create' => 'kegiatan.create',
         'store' => 'kegiatan.store',
+        'show' => 'kegiatan.show',
         'edit' => 'kegiatan.edit',
         'update' => 'kegiatan.update',
         'destroy' => 'kegiatan.destroy',
-        'show' => 'kegiatan.show', // Pastikan 'show' ada untuk Kegiatan
     ]);
     
-    // RESOURCE ROUTE UNTUK ANGGOTA (Ditambahkan 'parameters' untuk mengatasi masalah 'anggotum')
+    // RESOURCE ROUTE UNTUK ANGGOTA (HANYA UNTUK USER YANG MEMILIKI HAK AKSES ADMIN/MANAJEMEN)
     Route::resource('anggota', AnggotaController::class)->names([
         'index' => 'anggota.index',
         'create' => 'anggota.create',
@@ -44,7 +42,7 @@ Route::middleware('auth')->group(function () {
         'update' => 'anggota.update',
         'destroy' => 'anggota.destroy',
     ])->parameters([
-        'anggota' => 'anggota' // Mengganti parameter {anggotum} menjadi {anggota}
+        'anggota' => 'anggota' 
     ]);
 });
 
